@@ -28,9 +28,11 @@ const handleInput = (event: Event): void => {
             :value="investableAssetInput"
             :disabled="disabled"
             @input="handleInput"
-            type="text"
             inputmode="decimal"
+            type="text"
             placeholder="Enter USD Amount..."
+            aria-describedby="input-error"
+            :aria-invalid="!isValid && investableAssetInput !== ''"
           />
         </div>
       </div>
@@ -38,6 +40,7 @@ const handleInput = (event: Event): void => {
     <p
       v-show="!isValid && investableAssetInput !== ''"
       class="helper"
+      role="alert"
     >
       Please enter a valid positive amount
     </p>

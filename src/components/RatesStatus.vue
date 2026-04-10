@@ -18,7 +18,11 @@ const emit = defineEmits<{
         <div v-else>
             <div v-if="error">
                 <p class="error">{{ error }}</p>
-                <button type="button" @click="emit('retry')">Retry</button>
+                <button
+                    type="button"
+                    @click="emit('retry')"
+                    aria-label="Retry fetching exchange rates"
+                >Retry</button>
             </div>
             <div v-else-if="time">
                 <p>Rates fetched at {{ formatTimeStamp(time) }}</p>
@@ -28,7 +32,7 @@ const emit = defineEmits<{
     </div>
 </template>
 
-<style>
+<style scoped>
 .status {
     border-top: 1px solid var(--color-border);
     margin-top: 1em;

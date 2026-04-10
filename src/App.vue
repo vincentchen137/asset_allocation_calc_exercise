@@ -30,9 +30,9 @@ const isInvestableAssetValid = computed<boolean>(() => investableAsset.value > 0
 const hasRates = computed<boolean>(() => rates.value !== null)
 
 const btcAllocation = computed<number>(() =>
-  investableAsset.value * BTC_PERCENTAGE)
+  Math.round(investableAsset.value * BTC_PERCENTAGE * 100) / 100)
 const ethAllocation = computed<number>(() =>
-  investableAsset.value * ETH_PERCENTAGE)
+  Math.round(investableAsset.value * ETH_PERCENTAGE * 100) / 100)
 
 const btcAmount = computed<number>(() => {
   if (!rates.value?.BTC) {
@@ -76,8 +76,8 @@ const ethData = computed<AllocationData>(() => ({
       Enter your investable USD amount to see a 70/30 split between BTC and ETH at live exchange rates, powered by the Coinbase API.
     </p>
   </header>
-  <div class="grid">
-      <article class="card">
+  <main class="grid">
+      <article class="card" aria-label="Investable Assets Input">
         <AssetInput
           v-model:investableAssetInput="investableAssetInput"
           :isValid="isInvestableAssetValid"
@@ -90,17 +90,17 @@ const ethData = computed<AllocationData>(() => ({
           @retry="loadRates"
         />
       </article>
-      <article class="card">
+      <article class="card" aria-label="BTC Allocation Results">
         <AllocationResult
           :data="btcData"
         />
       </article>
-      <article class="card">
+      <article class="card" aria-label="ETH Allocation Results">
         <AllocationResult
           :data="ethData"
         />
       </article>
-  </div>
+    </main>
 </template>
 
 <style scoped>
