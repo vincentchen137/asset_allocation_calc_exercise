@@ -4,6 +4,7 @@ import AssetInput from "./components/AssetInput.vue"
 import RatesStatus from "./components/RatesStatus.vue"
 import AllocationResult from "./components/AllocationResult.vue"
 import { useExchangeRates } from "./composables/useExchangeRates"
+import type { AllocationData } from "./types/allocationData"
 import './styles/main.css'
 
 
@@ -45,6 +46,25 @@ const ethAmount = computed<number>(() => {
   }
   return ethAllocation.value * rates.value.ETH
 })
+
+const isReady = computed<boolean>(() => isInvestableAssetValid.value && hasRates.value)
+
+const btcData = computed<AllocationData>(() => ({
+  allocationAmount: btcAllocation.value,
+  allocationPercentage: BTC_PERCENTAGE,
+  cryptoAmount: btcAmount.value,
+  cryptoCurrency: "BTC",
+  rate: rates.value?.BTC ?? null,
+  isReady: isReady.value,
+}))
+const ethData = computed<AllocationData>(() => ({
+  allocationAmount: ethAllocation.value,
+  allocationPercentage: ETH_PERCENTAGE,
+  cryptoAmount: ethAmount.value,
+  cryptoCurrency: "ETH",
+  rate: rates.value?.ETH ?? null,
+  isReady: isReady.value,
+}))
 </script>
 
 <template>
@@ -60,7 +80,7 @@ const ethAmount = computed<number>(() => {
       <article class="card">
         <AssetInput
           v-model:investableAssetInput="investableAssetInput"
-          :isInvestableAssetValid="isInvestableAssetValid"
+          :isValid="isInvestableAssetValid"
           :disabled="isLoading || !hasRates"
         />
         <RatesStatus
@@ -69,27 +89,14 @@ const ethAmount = computed<number>(() => {
           :time="time"
         />
       </article>
-
       <article class="card">
         <AllocationResult
-          :allocation="btcAllocation"
-          :allocationPercentage="BTC_PERCENTAGE"
-          :hasRates="hasRates"
-          :isInvestableAssetValid="isInvestableAssetValid"
-          :amount="btcAmount"
-          :cryptoCurrency="'BTC'"
-          :rate="rates?.BTC ?? null"
+          :data="btcData"
         />
       </article>
       <article class="card">
         <AllocationResult
-          :allocation="ethAllocation"
-          :allocationPercentage="ETH_PERCENTAGE"
-          :hasRates="hasRates"
-          :isInvestableAssetValid="isInvestableAssetValid"
-          :amount="ethAmount"
-          :cryptoCurrency="'ETH'"
-          :rate="rates?.ETH ?? null"
+          :data="ethData"
         />
       </article>
   </div>

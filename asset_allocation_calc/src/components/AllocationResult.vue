@@ -1,36 +1,29 @@
 <script setup lang="ts">
+import type { AllocationData } from '../types/allocationData';
 import { formatUsd, formatAsset } from '../utils/format';
-import '../styles/main.css'
-
 
 defineProps<{
-    allocationPercentage: number
-    allocation: number
-    hasRates: boolean
-    isInvestableAssetValid: boolean
-    amount: number
-    cryptoCurrency: string
-    rate: number | null
+    data: AllocationData
 }>()
 </script>
 
 <template>
     <section>
-        <h2>{{ cryptoCurrency }}</h2>
+        <h2>{{ data.cryptoCurrency }}</h2>
         <div class="row">
-            <p>{{ allocationPercentage * 100 }}% Allocation</p>
+            <p>{{ data.allocationPercentage * 100 }}% Allocation</p>
         </div>
         <div class="row">
             <span>USD allocation:</span>
-            <strong>{{ formatUsd(allocation) }}</strong>
+            <strong>{{ formatUsd(data.allocationAmount) }}</strong>
         </div>
         <div class="row">
-            <span>{{ cryptoCurrency }}:</span>
-            <strong>{{ hasRates && isInvestableAssetValid ? formatAsset(amount) : "-"}} {{ cryptoCurrency }}</strong>
+            <span>{{ data.cryptoCurrency }}:</span>
+            <strong>{{ data.isReady ? formatAsset(data.cryptoAmount) : "-"}} {{ data.cryptoCurrency }}</strong>
         </div>
         <div class="row">
             <span>$1 USD = </span>
-            <strong>{{ rate ? rate : "-" }}  {{ cryptoCurrency }}</strong>
+            <strong>{{ data.rate ?? "-" }}  {{ data.cryptoCurrency }}</strong>
         </div>
     </section>
 </template>

@@ -10,12 +10,10 @@ export async function fetchExchangeRates(): Promise<ExchangeRates> {
     }
 
     const data: ExchangeRatesResponse = await response.json()
-    // console.log('data', data)
-    
+
     const btcRate = data?.data?.rates?.BTC
     const ethRate = data?.data?.rates?.ETH
-    // console.log('btc', btcRate)
-    
+
     if (!btcRate || !ethRate) {
         throw new Error("BTC or ETH rate missing from API response")
     }

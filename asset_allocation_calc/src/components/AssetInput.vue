@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   investableAssetInput: string
-  isInvestableAssetValid: boolean
+  isValid: boolean
   disabled?: boolean
 }>()
 
@@ -36,7 +36,7 @@ const handleInput = (event: Event): void => {
       </div>
     </div>
     <p
-      v-show="!isInvestableAssetValid && investableAssetInput !== ''"
+      v-show="!isValid && investableAssetInput !== ''"
       class="helper"
     >
       Please enter a valid positive amount
