@@ -6,18 +6,32 @@ defineProps<{
   error: string
   time: Date | null
 }>()
+
+const emit = defineEmits<{
+    retry: []
+}>()
 </script>
 
 <template>
-    <div class="row">
+    <div class="status">
         <p v-if="isLoading">Fetching rates...</p>
-        <div v-else-if="time">
-            <p>Rates fetched at {{ formatTimeStamp(time) }}</p>
-            <p>Rates will automatically fetch every 60 seconds</p>
+        <div v-else>
+            <div v-if="error">
+                <p class="error">{{ error }}</p>
+                <button type="button" @click="emit('retry')">Retry</button>
+            </div>
+            <div v-else-if="time">
+                <p>Rates fetched at {{ formatTimeStamp(time) }}</p>
+                <p>Rates will automatically fetch every 60 seconds</p>
+            </div>
         </div>
-        <p v-if="error" class="error">{{ error }}</p>
     </div>
 </template>
 
 <style>
+.status {
+    border-top: 1px solid var(--color-border);
+    margin-top: 1em;
+    padding-top: 1em;
+}
 </style>

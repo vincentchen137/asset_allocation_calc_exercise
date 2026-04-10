@@ -12,7 +12,7 @@ const BTC_PERCENTAGE = 0.7
 const ETH_PERCENTAGE = 0.3
 
 const investableAssetInput = ref<string>("")
-const { rates, isLoading, error, time } = useExchangeRates()
+const { rates, isLoading, error, time, loadRates } = useExchangeRates()
 
 // parsed number, used for calculating
 const investableAsset = computed<number>(() => {
@@ -87,6 +87,7 @@ const ethData = computed<AllocationData>(() => ({
           :isLoading="isLoading"
           :error="error"
           :time="time"
+          @retry="loadRates"
         />
       </article>
       <article class="card">

@@ -2,7 +2,7 @@
 defineProps<{
   investableAssetInput: string
   isValid: boolean
-  disabled?: boolean
+  disabled: boolean
 }>()
 
 const emit = defineEmits<{
